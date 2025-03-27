@@ -1,8 +1,9 @@
-// Default layout for Ampersand
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+
 #include QMK_KEYBOARD_H
 
 enum {
-	TTILD_HLSHIFT,
+    TTILD_HLSHIFT,
     TD_1,
     TD_2,
     TD_3,
@@ -13,11 +14,13 @@ enum {
     TD_8,
     TD_9,
     TD_0,
-    TD_MIN_EQ,
+    TD_A,
+    TD_S,
+    TD_K,
+    TD_L,
     TD_SLSH,
     TD_PARENLALT,
     TD_PARENRALT,
-    TD_SEMI_QUOTE,
     TD_COM_BSL,
     TD_DOT_FSL,
     TD_BKTLGUI,
@@ -86,6 +89,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             tap_dance_tap_hold_case_helper(keycode, record);
             break;
         case TD(TD_BKTRGUI):
+            tap_dance_tap_hold_case_helper(keycode, record);
+            break;
+        case TD(TD_A):
+            tap_dance_tap_hold_case_helper(keycode, record);
+            break;
+        case TD(TD_S):
+            tap_dance_tap_hold_case_helper(keycode, record);
+            break;
+        case TD(TD_K):
+            tap_dance_tap_hold_case_helper(keycode, record);
+            break;
+        case TD(TD_L):
             tap_dance_tap_hold_case_helper(keycode, record);
             break;
     }
@@ -170,10 +185,10 @@ void tap_dance_tap_hold_layer_reset(tap_dance_state_t *state, void *user_data) {
 #define ACTION_TAP_DANCE_TAP_LAYER_HOLD(tap, hold) \
     { .fn = {NULL, tap_dance_tap_hold_layer_finished, tap_dance_tap_hold_layer_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
 
-
 tap_dance_action_t tap_dance_actions[] = {
     [TTILD_HLSHIFT] = ACTION_TAP_DANCE_TAP_HOLD(KC_TILD, KC_LSFT),
     [TD_1] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_Q, KC_1),
+    [TD_2] =  ACTION_TAP_DANCE_TAP_HOLD_UP(KC_W, KC_2),
     [TD_3] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_E, KC_3),
     [TD_4] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_R, KC_4),
     [TD_5] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_T, KC_5),
@@ -182,14 +197,15 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_8] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_I, KC_8),
     [TD_9] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_O, KC_9),
     [TD_0] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_P, KC_0),
-    [TD_MIN_EQ] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_EQUAL),
+    [TD_A] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_A, KC_MINS),
+    [TD_S] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_S, KC_EQUAL),
+    [TD_K] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_K, KC_SCLN),
+    [TD_L] = ACTION_TAP_DANCE_TAP_HOLD_UP(KC_L, KC_QUOT),
     [TD_SLSH] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_BSLS),
-    [TD_SEMI_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_QUOT),
     [TD_COM_BSL] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_BSLS),
     [TD_DOT_FSL] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_SLSH),
     [TD_PARENLALT] = ACTION_TAP_DANCE_TAP_HOLD(KC_LPRN, KC_LALT),
-    [TD_PARENRALT] = ACTION_TAP_DANCE_TAP_LAYER_HOLD(KC_RPRN, 3),
-    [TD_2] =  ACTION_TAP_DANCE_TAP_HOLD_UP(KC_W, KC_2),
+    [TD_PARENRALT] = ACTION_TAP_DANCE_TAP_LAYER_HOLD(KC_RPRN, 2),
     [TD_BKTLGUI] = ACTION_TAP_DANCE_TAP_HOLD(KC_LBRC, KC_LGUI),
     [TD_BKTRGUI] = ACTION_TAP_DANCE_TAP_HOLD(KC_RBRC, KC_RGUI)
 };
@@ -212,24 +228,61 @@ const key_override_t *key_overrides[] = {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-[0] = LAYOUT_split_bars(
-	LT(2, KC_ESC),     TD(TD_1),TD(TD_2),TD(TD_3),TD(TD_4),TD(TD_5),TD(TD_6),TD(TD_7),TD(TD_8),TD(TD_9),TD(TD_0),TD(TD_MIN_EQ), KC_BSPC,
-	KC_TAB,            KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    TD(TD_SEMI_QUOTE), KC_ENT,       KC_NO,
-	TD(TTILD_HLSHIFT), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    TD(TD_COM_BSL), TD(TD_DOT_FSL),  KC_NO, MT(MOD_RSFT, KC_UP),
-	KC_LCTL, TD(TD_PARENLALT),  TD(TD_BKTLGUI),            KC_SPC,  LT(1, KC_SPC),      TD(TD_BKTRGUI), TD(TD_PARENRALT), MT(MOD_RCTL, KC_RIGHT)),
-[1] = LAYOUT_split_bars(
-	KC_GRV,  KC_1   , KC_2    , KC_3   , KC_4   , KC_5   , KC_6   , KC_7   , KC_8   , KC_9   , KC_0  , KC_TRNS,  KC_TRNS,
-	KC_TRNS, KC_MINS, KC_EQUAL, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_GRV, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,
-	KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-	KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS, KC_TRNS,                   KC_TRNS, KC_TRNS, KC_TRNS),
-[2] = LAYOUT_split_bars(
-    KC_TRNS, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11,   KC_F12,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS, KC_TRNS,                   KC_TRNS, KC_TRNS, KC_TRNS),
-[3] = LAYOUT_split_bars(
-    KC_ESC,  KC_PGUP, KC_UP, KC_PGDN, KC_HOME, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,
-    KC_TRNS, KC_LEFT, KC_DOWN, KC_RIGHT, KC_END, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS, KC_TRNS,                   KC_TRNS, KC_TRNS, KC_TRNS),
+    [0] = LAYOUT(
+        KC_ESC,            TD(TD_1),TD(TD_2),TD(TD_3),TD(TD_4),TD(TD_5),TD(TD_6),TD(TD_7),TD(TD_8),       TD(TD_9),       TD(TD_0),            KC_BSPC,
+        LT(3, KC_TAB),     TD(TD_A),TD(TD_S),KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    TD(TD_K),       TD(TD_L),       KC_ENT,
+        TD(TTILD_HLSHIFT), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    TD(TD_COM_BSL), TD(TD_DOT_FSL), MT(MOD_RSFT, KC_UP),
+        KC_LCTL, TD(TD_PARENLALT),  TD(TD_BKTLGUI),   KC_NO ,KC_SPC,  LT(1, KC_SPC),      TD(TD_BKTRGUI), TD(TD_PARENRALT), MT(MOD_RCTL, KC_RIGHT)
+    ),
+
+    [1] = LAYOUT(
+        KC_TRNS, KC_1   , KC_2    ,KC_3   , KC_4   , KC_5   , KC_6   , KC_7   , KC_8   , KC_9   , KC_0, KC_TRNS,
+        KC_TRNS, KC_MINS, KC_EQUAL,KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_GRV,  KC_SCLN, KC_QUOT, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
+    [2] = LAYOUT(
+        KC_TRNS, KC_PGUP, KC_UP,   KC_PGDN, KC_HOME, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_LEFT, KC_DOWN, KC_RIGHT,KC_END,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
+    [3] = LAYOUT(
+        KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11,   KC_F12,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
+    [4] = LAYOUT(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
+    [5] = LAYOUT(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
+    [6] = LAYOUT(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
+    [7] = LAYOUT(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
 };
+
