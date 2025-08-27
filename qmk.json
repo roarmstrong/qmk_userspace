@@ -2,6 +2,7 @@
     "userspace_version": "1.1",
     "build_targets": [
         ["langerhans/riva", "roarmstrong"],
-        ["wilba_tech/wt45_g", "mine"]
+        ["wilba_tech/wt45_g", "mine"],
+        ["cannonkeys/minimi40/staggered", "roarmstrong"]
     ]
 }

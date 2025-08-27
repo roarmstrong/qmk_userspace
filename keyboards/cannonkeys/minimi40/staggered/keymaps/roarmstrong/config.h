@@ -1,0 +1,3 @@
+#define TAPPING_TERM 160
+#define PERMISSIVE_HOLD
+#define TAP_CODE_DELAY 10
